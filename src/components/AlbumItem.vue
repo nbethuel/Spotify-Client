@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import type { SpotifyAlbum } from "../types/spotify";
 import { useFavoritesStore } from "../stores/favorites.store";
+import { releaseYear } from "../utils/spotify.utils";
 
 const router = useRouter();
 const favStore = useFavoritesStore();
@@ -23,9 +24,6 @@ const thumbnail = computed(() =>
       props.album.images[0])
     : props.album.images.find((image) => image.height === 64),
 );
-
-const year = (releaseDate: string) =>
-  releaseDate.replace(/(\d{4})-\d{2}-\d{2}/, "$1");
 </script>
 
 <template>
@@ -44,7 +42,7 @@ const year = (releaseDate: string) =>
       <div class="title-row">
         <span class="title"
           >{{ album.name }}
-          <span class="year">({{ year(album.release_date) }})</span></span
+          <span class="year">({{ releaseYear(album.release_date) }})</span></span
         >
         <Button
           :icon="

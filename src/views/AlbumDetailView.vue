@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { albumStore } from "../stores/album.store";
 import { useFavoritesStore } from "../stores/favorites.store";
 import type { SpotifyTrack } from "../types/spotify";
+import { releaseYear } from "../utils/spotify.utils";
 
 const route = useRoute();
 const router = useRouter();
@@ -21,9 +22,6 @@ const cover = computed(
     album.value?.images.find((image) => image.height === 300) ??
     album.value?.images[0],
 );
-
-const year = (releaseDate: string) =>
-  releaseDate.replace(/(\d{4})-\d{2}-\d{2}/, "$1");
 
 const formatDuration = (track: SpotifyTrack) => {
   const minutes = Math.floor(track.duration_ms / 60000);
@@ -101,7 +99,7 @@ onMounted(() => {
           </p>
           <div class="flex gap-2 flex-wrap align-items-center">
             <Tag
-              :value="year(album.release_date)"
+              :value="releaseYear(album.release_date)"
               icon="pi pi-calendar"
               severity="secondary"
             />
