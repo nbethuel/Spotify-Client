@@ -7,6 +7,11 @@ La logique de recherche qui vivait directement dans la vue a été extraite dans
 ### [Feature] Afficher le détail d'un album
 Ajout d'une page de détail accessible en cliquant sur un album. On y retrouve la pochette, les artistes, le label, l'année de sortie et la tracklist complète avec les durées. Un skeleton de chargement a été ajouté pour ne pas laisser l'utilisateur face à une page vide.
 
+### [Feature] Gérer la pagination de la recherche
+Les résultats de recherche peuvent être nombreux, on a ajouté le composant Paginator de PrimeVue sur l'API Spotify pour naviguer entre les pages sans relancer une recherche complète.
+
+
+
 ## Setup : Accès à l'API Spotify
 
 * Aller sur la page [Spotify Dashboard](https://developer.spotify.com/dashboard).

@@ -28,5 +28,12 @@ const searchAlbum = () => store.search(searchInput.value);
       <i class="pi pi-search" v-else @click="searchAlbum()" />
     </span>
     <AlbumList :albums="store.albums" class="body" />
+    <Paginator
+      v-if="store.albums"
+      :rows="store.LIMIT"
+      :total-records="store.albums.total"
+      :first="store.albums.offset"
+      @page="store.goToPage($event.first)"
+    />
   </main>
 </template>

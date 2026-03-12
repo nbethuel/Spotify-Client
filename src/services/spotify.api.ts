@@ -12,9 +12,11 @@ export function setAuthToken(token: string) {
 
 export async function searchAlbums(
   query: string,
+  limit: number,
+  offset: number,
 ): Promise<SpotifyAlbumSearchResult> {
   const response = await spotifyClient.get("/search", {
-    params: { q: query, type: "album" },
+    params: { q: query, type: "album", limit, offset },
   });
   return response.data.albums;
 }

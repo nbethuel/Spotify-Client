@@ -10,6 +10,7 @@ import Column from "primevue/column";
 import Divider from "primevue/divider";
 import Tag from "primevue/tag";
 import Skeleton from "primevue/skeleton";
+import Paginator from "primevue/paginator";
 
 // PrimeVue v4 theme import
 import Lara from '@primevue/themes/lara';
@@ -38,5 +39,6 @@ app.component("Column", Column);
 app.component("Divider", Divider);
 app.component("Tag", Tag);
 app.component("Skeleton", Skeleton);
+app.component("Paginator", Paginator);
 
 app.mount("#app");
