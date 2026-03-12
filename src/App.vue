@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { useRouter, RouterLink, RouterView } from "vue-router";
 
-import { ref, computed } from "vue";
-import axios from "axios";
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import { authStore } from "./stores/auth.store";
-import { onMounted } from "vue";
-import AlbumList from "./components/AlbumList.vue";
 import type { MenuItem } from "primevue/menuitem";
 const router = useRouter();
 const auth = authStore();
-const authCode = auth.getTokenRef();
+const { authToken: authCode } = storeToRefs(auth);
 const connect = () => {
   const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
   const redirectUri = `${location.origin}/callback`;

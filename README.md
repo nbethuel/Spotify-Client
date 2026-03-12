@@ -1,5 +1,9 @@
 # myspotify-front-vue3-ts
 
+## Done
+### [Dette technique] Refactorer la recherche d'album
+La logique de recherche qui vivait directement dans la vue a été extraite dans un store Pinia et un service dédié. Les types Spotify ont été centralisés dans un fichier spotify.ts. La vue ne fait plus que afficher.
+
 ## Setup : Accès à l'API Spotify
 
 * Aller sur la page [Spotify Dashboard](https://developer.spotify.com/dashboard).
@@ -47,3 +51,4 @@ yarn lint
 Il faut ouvrir ton navigateur à l'adresse : (http://127.0.0.1:3000)[http://127.0.0.1:3000]
 
 > Ne pas mettre localhost, il faut bien utiliser l'adresse ip locale
+

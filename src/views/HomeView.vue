@@ -1,44 +1,17 @@
 <script setup lang="ts">
-import TheWelcome from "../components/TheWelcome.vue";
-import { ref, computed } from "vue";
+import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import { authStore } from "../stores/auth.store";
-import { onMounted } from "vue";
+import { albumStore } from "../stores/album.store";
 import AlbumList from "../components/AlbumList.vue";
-import axios, { AxiosError, AxiosResponse } from "axios";
 
 const auth = authStore();
+const store = albumStore();
 
-const authCode = auth.getTokenRef();
-const albums = ref();
+const { authToken: authCode } = storeToRefs(auth);
 const searchInput = ref("");
-const isLoading = ref(false);
 
-const searchAlbum = async () => {
-  try {
-    isLoading.value = true;
-    albums.value = null;
-    const result: AxiosResponse = await axios({
-      method: "GET",
-      responseType: "json",
-      params: {
-        q: searchInput.value,
-        type: "album",
-      },
-      url: "https://api.spotify.com/v1/search",
-      headers: {
-        Authorization: `Bearer ${authCode.value}`,
-        "Content-Type": "application/json",
-      },
-    });
-    albums.value = result.data.albums;
-    isLoading.value = false;
-    console.log(result.data.albums.items);
-  } catch (e: unknown) {
-    if (axios.isAxiosError(e) && e.code === "ERR_BAD_REQUEST") {
-      auth.resetToken();
-    }
-  }
-};
+const searchAlbum = () => store.search(searchInput.value);
 </script>
 
 <template>
@@ -51,9 +24,9 @@ const searchAlbum = async () => {
         @keyup.enter="searchAlbum()"
         class="w-full"
       />
-      <i class="pi pi-spin pi-spinner" v-if="isLoading" />
+      <i class="pi pi-spin pi-spinner" v-if="store.isLoading" />
       <i class="pi pi-search" v-else @click="searchAlbum()" />
     </span>
-    <AlbumList :albums="albums" class="body" />
+    <AlbumList :albums="store.albums" class="body" />
   </main>
 </template>

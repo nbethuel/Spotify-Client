@@ -2,14 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 
 export const authStore = defineStore("auth", () => {
-  const authToken = ref<string | null>(getToken());
-  function getToken() {
-    return localStorage.getItem("spotify_auth_token");
-  }
-
-  function getTokenRef() {
-    return authToken;
-  }
+  const authToken = ref<string | null>(localStorage.getItem("spotify_auth_token"));
 
   function setToken(value: string) {
     localStorage.setItem("spotify_auth_token", value);
@@ -21,5 +14,5 @@ export const authStore = defineStore("auth", () => {
     authToken.value = null;
   }
 
-  return { getTokenRef, setToken, resetToken };
+  return { authToken, setToken, resetToken };
 });

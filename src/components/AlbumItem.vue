@@ -1,28 +1,29 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import Card from "primevue/card";
+import type { SpotifyAlbum } from "../types/spotify";
 
-const year = function (releaseDate: string) {
-  return releaseDate.replace(/(\d{4})-\d{2}-\d{2}/, "$1");
-};
-defineProps<{
-  album: any;
+const props = defineProps<{
+  album: SpotifyAlbum;
 }>();
+
+const thumbnail = computed(() =>
+  props.album.images.find((image) => image.height === 64)
+);
+
+const year = (releaseDate: string) =>
+  releaseDate.replace(/(\d{4})-\d{2}-\d{2}/, "$1");
 </script>
 
 <template>
   <div>
-    <Card
-      v-for="image in album.images"
-      v-bind:key="image.url"
-      v-show="image.height === 64"
-      style="width: 380px; margin: 5px; min-height: 200px"
-    >
+    <Card style="width: 380px; margin: 5px; min-height: 200px">
       <template #content>
         <div class="flex">
-          <div>
+          <div v-if="thumbnail">
             <img
               class="cover"
-              :src="image.url"
+              :src="thumbnail.url"
               :alt="album.name"
               :title="album.name"
             />
@@ -35,7 +36,7 @@ defineProps<{
             <div
               class="p-card-subtitle"
               v-for="artist in album.artists"
-              v-bind:key="artist.id"
+              :key="artist.id"
             >
               {{ artist.name }}
             </div>

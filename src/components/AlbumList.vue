@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import AlbumItem from "./AlbumItem.vue";
+import type { SpotifyAlbumSearchResult } from "../types/spotify";
+
 defineProps<{
-  albums: any;
+  albums: SpotifyAlbumSearchResult | null;
 }>();
 </script>
 
 <template>
   <div v-if="albums" class="flex flex-row flex-wrap">
     <AlbumItem
-      :album="album"
       v-for="album in albums.items"
-      v-bind:key="album.id"
-    ></AlbumItem>
+      :key="album.id"
+      :album="album"
+    />
   </div>
 </template>
 
