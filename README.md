@@ -26,6 +26,9 @@ Migration du flow Implicit Grant (déprécié) vers Authorization Code. La diff�
 Les composants Card ont été remplacés par un DataView PrimeVue qui propose un toggle liste/grille. En mode grille, une image plus grande est utilisée pour éviter la pixelisation. Le composant AlbumItem gère les deux layouts via une prop layout.
 
 
+### [Feature] Placer la barre de recherche dans le menu (bandeau haut)
+Modification du Header pour accueillir la barre de recherche directement en son centre lorsque l'on est en mode desktop, et en dessous lorsque l'on est en mode mobile.
+
 
 
 ## Setup : Accès à l'API Spotify
