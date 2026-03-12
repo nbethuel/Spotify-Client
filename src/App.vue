@@ -48,7 +48,6 @@ const connect = () => {
     }
     router.push("/");
   };
-  // @ts-ignore
   window.spotifyCallback = callback;
 };
 
