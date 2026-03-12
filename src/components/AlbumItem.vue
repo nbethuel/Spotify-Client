@@ -3,8 +3,10 @@ import { computed } from "vue";
 import { useRouter } from "vue-router";
 import Card from "primevue/card";
 import type { SpotifyAlbum } from "../types/spotify";
+import { useFavoritesStore } from "../stores/favorites.store";
 
 const router = useRouter();
+const favStore = useFavoritesStore();
 
 const props = defineProps<{
   album: SpotifyAlbum;
@@ -34,10 +36,35 @@ const year = (releaseDate: string) =>
               :title="album.name"
             />
           </div>
-          <div>
-            <div class="p-card-title">
-              {{ album.name }}
-              <span class="year">({{ year(album.release_date) }})</span>
+          <div class="card-content">
+            <div class="title-row">
+              <div class="p-card-title title-text">
+                {{ album.name }}
+                <span class="year">({{ year(album.release_date) }})</span>
+              </div>
+              <Button
+                :icon="
+                  favStore.isFavorite(album.id)
+                    ? 'pi pi-heart-fill'
+                    : 'pi pi-heart'
+                "
+                :severity="
+                  favStore.isFavorite(album.id) ? 'danger' : 'secondary'
+                "
+                :aria-label="
+                  favStore.isFavorite(album.id)
+                    ? 'Retirer des favoris'
+                    : 'Ajouter aux favoris'
+                "
+                :title="
+                  favStore.isFavorite(album.id)
+                    ? 'Retirer des favoris'
+                    : 'Ajouter aux favoris'
+                "
+                text
+                rounded
+                @click.stop="favStore.toggleFavorite(album)"
+              />
             </div>
             <div
               class="p-card-subtitle"
@@ -61,6 +88,20 @@ const year = (releaseDate: string) =>
 }
 .year {
   font-size: 1rem;
+}
+.card-content {
+  flex: 1;
+  min-width: 0;
+}
+.title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+.title-text {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
 }
 .album-card {
   width: 380px;

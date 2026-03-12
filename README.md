@@ -10,6 +10,17 @@ Ajout d'une page de détail accessible en cliquant sur un album. On y retrouve l
 ### [Feature] Gérer la pagination de la recherche
 Les résultats de recherche peuvent être nombreux, on a ajouté le composant Paginator de PrimeVue sur l'API Spotify pour naviguer entre les pages sans relancer une recherche complète.
 
+### [Feature] Ajouter un album en favoris
+Un bouton cœur a été ajouté sur chaque album, aussi bien dans la liste que sur la page de détail. Les favoris sont persistés en localStorage, donc ils survivent au rechargement de la page.
+
+### [Feature] Afficher les albums favoris
+Ajout d'une page dédiée accessible depuis le menu. Elle affiche les albums mis en favoris avec le même composant que la recherche. Un message d'accès refusé s'affiche si l'utilisateur n'est pas connecté.
+
+### [Feature] Gérer les favoris par utilisateur
+Les favoris sont maintenant stockés par utilisateur Spotify, clé spotify_favorites_<userId>. Changer de compte recharge automatiquement les bons favoris. Si plusieurs personnes utilisent l'app sur le même navigateur, elles ne se marchent plus dessus.
+
+### [Sécurité] Changer le flow d'authentification à Spotify
+Migration du flow Implicit Grant (déprécié) vers Authorization Code. La différence concrète : le token n'est plus exposé dans l'URL, un paramètre state aléatoire est vérifié pour prévenir les attaques CSRF, et un refresh token est maintenant disponible pour renouveler la session sans reconnexion.
 
 
 ## Setup : Accès à l'API Spotify
@@ -53,6 +64,14 @@ yarn test:unit
 ```sh
 yarn lint
 ```
+
+## Favoris — choix d'implémentation
+
+L'énoncé prévoit un backend H2 + Liquibase pour persister les favoris en base de données. Ce backend n'étant pas disponible dans le cadre de cet exercice, les favoris sont stockés **en localStorage**, avec une clé par utilisateur Spotify (`spotify_favorites_<userId>`).
+
+L'identifiant utilisateur est récupéré via l'endpoint `/v1/me` de l'API Spotify après chaque connexion, ce qui garantit l'isolation des favoris entre utilisateurs sur un même navigateur.
+
+L'architecture est conçue pour faciliter la migration vers un vrai backend : toute la logique de persistance est encapsulée dans `src/stores/favorites.store.ts`. Brancher une API REST reviendrait à remplacer les appels `localStorage` dans ce seul fichier par des appels HTTP, sans modifier les composants.
 
 ## Tester
 

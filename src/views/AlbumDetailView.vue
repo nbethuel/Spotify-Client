@@ -2,11 +2,13 @@
 import { onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { albumStore } from "../stores/album.store";
+import { useFavoritesStore } from "../stores/favorites.store";
 import type { SpotifyTrack } from "../types/spotify";
 
 const route = useRoute();
 const router = useRouter();
 const store = albumStore();
+const favStore = useFavoritesStore();
 
 const album = computed(() => store.currentAlbum);
 
@@ -70,7 +72,30 @@ onMounted(() => {
           class="album-cover"
         />
         <div class="flex flex-column gap-3">
-          <h1 class="m-0">{{ album.name }}</h1>
+          <div class="flex align-items-center gap-3">
+            <h1 class="m-0">{{ album.name }}</h1>
+            <Button
+              :icon="
+                favStore.isFavorite(album.id)
+                  ? 'pi pi-heart-fill'
+                  : 'pi pi-heart'
+              "
+              :severity="favStore.isFavorite(album.id) ? 'danger' : 'secondary'"
+              :aria-label="
+                favStore.isFavorite(album.id)
+                  ? 'Retirer des favoris'
+                  : 'Ajouter aux favoris'
+              "
+              :title="
+                favStore.isFavorite(album.id)
+                  ? 'Retirer des favoris'
+                  : 'Ajouter aux favoris'
+              "
+              text
+              rounded
+              @click="favStore.toggleFavorite(album)"
+            />
+          </div>
           <p class="m-0 text-xl artists">
             {{ artistNames }}
           </p>

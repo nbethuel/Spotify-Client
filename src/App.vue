@@ -1,28 +1,34 @@
 <script setup lang="ts">
-import { useRouter, RouterLink, RouterView } from "vue-router";
+import { useRouter, RouterView } from "vue-router";
 
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { authStore } from "./stores/auth.store";
+import { useFavoritesStore } from "./stores/favorites.store";
 import type { MenuItem } from "primevue/menuitem";
 const router = useRouter();
 const auth = authStore();
+const favStore = useFavoritesStore();
 const { authToken: authCode } = storeToRefs(auth);
 const connect = () => {
   const clientId = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
   const redirectUri = `${location.origin}/callback`;
+  const state = crypto.randomUUID();
+  localStorage.setItem("spotify_auth_state", state);
 
-  var width = 800;
-  var height = 600;
-  var left = screen.width / 2 - width / 2;
-  var top = screen.height / 2 - height / 2;
+  const width = 800;
+  const height = 600;
+  const left = screen.width / 2 - width / 2;
+  const top = screen.height / 2 - height / 2;
   const popup = window.open(
-    `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}`,
+    `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&state=${state}`,
     "Login with Spotify",
-    `width=${width},height=${height},top=${top},left=${left}`
+    `width=${width},height=${height},top=${top},left=${left}`,
   );
-  const callback = async (payload: string) => {
-    auth.setToken(payload);
+  const callback = async (payload: { accessToken: string; refreshToken: string }) => {
+    auth.setToken(payload.accessToken);
+    auth.setRefreshToken(payload.refreshToken);
+    await auth.fetchUserId();
     if (popup) {
       popup.close();
     }
@@ -32,6 +38,12 @@ const connect = () => {
   window.spotifyCallback = callback;
 };
 
+onMounted(() => {
+  if (auth.authToken && !auth.userId) {
+    auth.fetchUserId();
+  }
+});
+
 const disconnect = () => {
   auth.resetToken();
 };
@@ -39,12 +51,19 @@ const disconnect = () => {
 const items = ref<MenuItem[]>([
   {
     label: "Recherche",
-    to: "/",
+    command: () => router.push("/"),
     visible: () => authCode.value != null,
   },
   {
+    label: "Favoris",
+    icon: "pi pi-heart",
+    command: () => router.push("/favorites"),
+    visible: () => authCode.value != null,
+    badge: String(favStore.count || ""),
+  },
+  {
     label: "A propos",
-    to: "/about",
+    command: () => router.push("/about"),
   },
   {
     separator: true,

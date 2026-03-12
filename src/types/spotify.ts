@@ -26,6 +26,11 @@ export interface SpotifyAlbumSearchResult {
   previous: string | null;
 }
 
+export interface SpotifyUser {
+  id: string;
+  display_name: string;
+}
+
 export interface SpotifyTrack {
   id: string;
   name: string;
