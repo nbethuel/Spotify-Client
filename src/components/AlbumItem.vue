@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { useRouter } from "vue-router";
 import Card from "primevue/card";
 import type { SpotifyAlbum } from "../types/spotify";
+
+const router = useRouter();
 
 const props = defineProps<{
   album: SpotifyAlbum;
 }>();
 
 const thumbnail = computed(() =>
-  props.album.images.find((image) => image.height === 64)
+  props.album.images.find((image) => image.height === 64),
 );
 
 const year = (releaseDate: string) =>
@@ -17,7 +20,10 @@ const year = (releaseDate: string) =>
 
 <template>
   <div>
-    <Card style="width: 380px; margin: 5px; min-height: 200px">
+    <Card
+      :pt="{ root: { class: 'album-card' } }"
+      @click="router.push({ name: 'album', params: { id: album.id } })"
+    >
       <template #content>
         <div class="flex">
           <div v-if="thumbnail">
@@ -55,5 +61,11 @@ const year = (releaseDate: string) =>
 }
 .year {
   font-size: 1rem;
+}
+.album-card {
+  width: 380px;
+  margin: 5px;
+  min-height: 200px;
+  cursor: pointer;
 }
 </style>

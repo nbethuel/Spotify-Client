@@ -18,6 +18,11 @@ const router = createRouter({
       component: () => import("../views/AboutView.vue"),
     },
     {
+      path: "/album/:id",
+      name: "album",
+      component: () => import("../views/AlbumDetailView.vue"),
+    },
+    {
       path: "/callback",
       name: "callback",
       // route level code-splitting

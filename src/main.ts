@@ -5,6 +5,11 @@ import Card from "primevue/card";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import Menubar from "primevue/menubar";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Divider from "primevue/divider";
+import Tag from "primevue/tag";
+import Skeleton from "primevue/skeleton";
 
 // PrimeVue v4 theme import
 import Lara from '@primevue/themes/lara';
@@ -28,5 +33,10 @@ app.component("Card", Card);
 app.component("InputText", InputText);
 app.component("Button", Button);
 app.component("Menubar", Menubar);
+app.component("DataTable", DataTable);
+app.component("Column", Column);
+app.component("Divider", Divider);
+app.component("Tag", Tag);
+app.component("Skeleton", Skeleton);
 
 app.mount("#app");

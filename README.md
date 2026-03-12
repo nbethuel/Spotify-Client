@@ -4,6 +4,9 @@
 ### [Dette technique] Refactorer la recherche d'album
 La logique de recherche qui vivait directement dans la vue a été extraite dans un store Pinia et un service dédié. Les types Spotify ont été centralisés dans un fichier spotify.ts. La vue ne fait plus que afficher.
 
+### [Feature] Afficher le détail d'un album
+Ajout d'une page de détail accessible en cliquant sur un album. On y retrouve la pochette, les artistes, le label, l'année de sortie et la tracklist complète avec les durées. Un skeleton de chargement a été ajouté pour ne pas laisser l'utilisateur face à une page vide.
+
 ## Setup : Accès à l'API Spotify
 
 * Aller sur la page [Spotify Dashboard](https://developer.spotify.com/dashboard).

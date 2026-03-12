@@ -25,3 +25,18 @@ export interface SpotifyAlbumSearchResult {
   next: string | null;
   previous: string | null;
 }
+
+export interface SpotifyTrack {
+  id: string;
+  name: string;
+  track_number: number;
+  duration_ms: number;
+}
+
+export interface SpotifyAlbumDetail extends SpotifyAlbum {
+  label: string;
+  total_tracks: number;
+  tracks: {
+    items: SpotifyTrack[];
+  };
+}
