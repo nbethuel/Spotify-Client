@@ -22,6 +22,11 @@ Les favoris sont maintenant stockés par utilisateur Spotify, clé spotify_favor
 ### [Sécurité] Changer le flow d'authentification à Spotify
 Migration du flow Implicit Grant (déprécié) vers Authorization Code. La différence concrète : le token n'est plus exposé dans l'URL, un paramètre state aléatoire est vérifié pour prévenir les attaques CSRF, et un refresh token est maintenant disponible pour renouveler la session sans reconnexion.
 
+### [Feature] Remplacer les cards dans les composants AlbumList
+Les composants Card ont été remplacés par un DataView PrimeVue qui propose un toggle liste/grille. En mode grille, une image plus grande est utilisée pour éviter la pixelisation. Le composant AlbumItem gère les deux layouts via une prop layout.
+
+
+
 
 ## Setup : Accès à l'API Spotify
 
