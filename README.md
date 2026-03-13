@@ -29,7 +29,8 @@ Les composants Card ont été remplacés par un DataView PrimeVue qui propose un
 ### [Feature] Placer la barre de recherche dans le menu (bandeau haut)
 Modification du Header pour accueillir la barre de recherche directement en son centre lorsque l'on est en mode desktop, et en dessous lorsque l'on est en mode mobile.
 
-
+## TODO
+Les tests unitaires n'ont pas été inclus dans le périmètre de cet exercice, mais les stores Pinia (search, favorites, auth) et les utilitaires (releaseYear, formatDuration) seraient les premiers candidats à couvrir.
 
 ## Setup : Accès à l'API Spotify
 
